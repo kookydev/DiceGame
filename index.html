@@ -1,1 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="main.css">
+    <title>Awesome Dice Game</title>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="heading">
+            <h1>Dice Game</h1>
+        </div>
+        <div id="instructions">
+            <h3>Instructions</h3>
+            <ol>
+                <li>Roll the dice to begin the game.</li>
+                <li>The dice appears on the first roll.</li>
+                <li>Each time the dice is rolled the score adds up.</li>
+                <li>If the score passes 20, you win.</li>
+                <li>If you roll a 1 at any time, you lose and the game restarts.</li>
+            </ol>
+        </div>
+        <div class="play-area">
+            <div class="score"></div>
+            <div class="dice">
+                <div class="dice-inner">
+                    <img id="dice-face" src="./img/dice1.png" alt="1">
+                </div>
+            <div class="playButton"></div>
+            </div>
+        </div>
 
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
