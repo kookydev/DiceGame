@@ -1,1 +1,31 @@
+.play-button {
+    width: 200px;
+    height: 40px;
+    background: red;
+    color: white;
+    border: 2px solid white;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
+.scoreboard {
+    width: 80vw;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    justify-content: center;
+    min-height: 30vh;
+}
+
+.scoreboard-headings {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+}
+
+#scoreboard-inner {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);  
+}
