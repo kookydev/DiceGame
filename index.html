@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,10 +8,16 @@
     <link rel="stylesheet" href="main.css">
     <title>Awesome Dice Game</title>
 </head>
+
 <body>
     <div id="wrapper">
         <div id="heading">
             <h1>Dice Game</h1>
+        </div>
+        <div id="message-box"></div>
+        <div class="controls">
+            <button type="button" id="play" class="button">Play the game!</button>
+            <button type="button" id="roll" class="button">Roll the die!</button>
         </div>
         <div id="instructions">
             <h3>Instructions</h3>
@@ -30,18 +37,20 @@
                 </div>
                 <div class="scoreboard">
                     <div class="scoreboard-headings">
-                            <div>Name</div><div>Last Roll</div><div>Score</div>
+                        <div>Name</div>
+                        <div>Last Roll</div>
+                        <div>Score</div>
                     </div>
-                    <div id="scoreboard-inner"> 
-
+                    <div id="scoreboard-inner">
+                        <div></div>
                     </div>
                 </div>
-            <button type="button" id="play" class="play-button">Play the game!</button>
-            <button type="button" id="roll" class="play-button">Roll the die!</button>
+
             </div>
         </div>
 
     </div>
     <script src="script.js"></script>
 </body>
+
 </html>
