@@ -14,41 +14,41 @@
         <div id="heading">
             <h1>Dice Game</h1>
         </div>
-        <div id="message-box"></div>
+        <div id="message-box">
+            <div id="message-box-inner"></div>
+            <input type="text" name="response" id="input">
+            <div id="instructions">
+                <h3>Rules:</h3>
+                <ol>
+                    <li>Each time the dice is rolled the score adds up.</li>
+                    <li>If the score passes 20, you win.</li>
+                    <li>If you roll a 1 at any time, you lose.</li>
+                </ol>
+            </div>
+        </div>
         <div class="controls">
             <button type="button" id="play" class="button">Play the game!</button>
             <button type="button" id="roll" class="button">Roll the die!</button>
         </div>
-        <div id="instructions">
-            <h3>Instructions</h3>
-            <ol>
-                <li>Roll the dice to begin the game.</li>
-                <li>The dice appears on the first roll.</li>
-                <li>Each time the dice is rolled the score adds up.</li>
-                <li>If the score passes 20, you win.</li>
-                <li>If you roll a 1 at any time, you lose and the game restarts.</li>
-            </ol>
-        </div>
-        <div class="play-area">
-            <div class="score"></div>
-            <div class="dice">
-                <div class="dice-inner">
-                    <img id="dice-face" src="./img/dice1.png" alt="1">
-                </div>
-                <div class="scoreboard">
-                    <div class="scoreboard-headings">
-                        <div>Name</div>
-                        <div>Last Roll</div>
-                        <div>Score</div>
-                    </div>
-                    <div id="scoreboard-inner">
-                        <div></div>
-                    </div>
-                </div>
 
+        <div class="play-area">
+            <div class="dice-inner">
+                <img id="dice-face" src="./img/dice1.png" alt="1">
+            </div>
+            <div class="score">
+                Your score is:
+            </div><div id="score-number">0</div>
+        </div>
+        <div class="scoreboard">
+            <div class="scoreboard-headings">
+                <div>Name</div>
+                <div>Last Roll</div>
+                <div>Score</div>
+            </div>
+            <div id="scoreboard-inner">
+                <div></div>
             </div>
         </div>
-
     </div>
     <script src="script.js"></script>
 </body>

@@ -1,6 +1,16 @@
 let playButton = document.getElementById("play");
-let rollDiceButton = document.getElementById("roll")
+let rollDiceButton = document.getElementById("roll");
+let messages = document.getElementById("message-box");
 
+
+function handleFirstTab(e) {
+    if (e.keyCode === 9) { // the "I am a keyboard user" key
+        document.body.classList.add('user-is-tabbing');
+        window.removeEventListener('keydown', handleFirstTab);
+    }
+}
+
+window.addEventListener('keydown', handleFirstTab);
 
 class Game {
     constructor() {
