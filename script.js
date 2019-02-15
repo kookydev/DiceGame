@@ -29,7 +29,6 @@ class Game {
         this.message = message;
         this.inputVal = inputVal;
         this.inputBox = inputBox;
-        // this.return = "";
     }
 
     play() {
@@ -111,27 +110,26 @@ class Game {
                 inputBox.style.display = "none";
                 submitButton.style.display = "none";
                 message.innerText = "";
-                return(response);
+                resolve(response);
             }
         )
     }
 
 
     initialise() {
-        let askPlayerNo = new Promise (function(resolve, reject) {
-            resolve(parseInt(this.questionAnswer("How many people are playing?")));
-        }).then(this.playerMaker(response));
+        let getNumPlayers = new Promise (function(resolve, reject) {
+            parseInt(this.questionAnswer("How many people are playing?"));
+        }).then(function(fromResolve) {this.playerMaker(this.numberOfPlayers)});
     }
 
     playerMaker(numPlayers) {
         if (numPlayers > 0) {
             for (let i = 0; i < numPlayers; i++) {
-                n = i + 1;
-                fetch(this.questionAnswer(`Player ${n}, enter your name:`))
-                    .then(() => {
-                        this.players.push(new Player(response))
-                    });
-            }
+                let n = i + 1;
+                let getName = new Promise(function(resolve, reject) {
+                    this.questionAnswer(`Player ${n}, please enter your name:`);}
+                    .then(this.players.push(new Player(name))));
+                }
         } else if (this.numberOfPlayers == NaN) {
             numberOfPlayers = this.questionAnswer("That wasn't a number, try again.")
             setTimeout(this.initialise(), 3000);
