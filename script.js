@@ -1,7 +1,8 @@
 let playButton = document.getElementById("play");
 let rollDiceButton = document.getElementById("roll");
-let messages = document.getElementById("message-box");
-
+let submitButton = document.getElementById("submit");
+let message = document.getElementById("players are theremessage-box-inner").textContent;
+let inputVal = document.getElementById("input").value;
 
 function handleFirstTab(e) {
     if (e.keyCode === 9) { // the "I am a keyboard user" key
@@ -15,6 +16,7 @@ window.addEventListener('keydown', handleFirstTab);
 class Game {
     constructor() {
         this.players = [];
+        this.numberOfPlayers = 0;
         this.playerInput = "";
         this.gameCount = 0;
         this.roll = 0;
@@ -76,37 +78,45 @@ class Game {
         
         
     }
+
+    questionAnswer(msg) {
+        message = msg;
+        inputBox.style.display = "inline";
+        submitButton.display = "inline";
+        submitButton.addEventListener("click", () => {
+            let response = inputVal;
+            inputVal = "";
+            message = "";
+            inputBox.style.display = "none";
+            submitButton.display = "none";
+            return(response);
+        });
+        
+    }
     
     initialise() {
-        var response = prompt(`Current players are:\n\n${this.players}\n\nDo you want to add any more? (y/n)`);
-        if (response == "y" || response == "n") {
-            if (response == "y") {
-                this.players.push(new Player(prompt(`What's your name?`)));
-                    console.log(this.players);
-                    this.initialise();
-            }
-            else {
-                if(this.players.length>0) {
-                    this.gameProgress();
-                }
-                else {
-                    alert(`You can't play a game with no players! Goodbye!`)
-                }
-            }
+        this.numberOfPlayers = questionAnswer("How many people are playing?");
+        if(this.numberOfPlayers>0) {
+            playerInput();
         }
         else {
-            alert(`${response} is not a valid response, please try again.`);
-            this.initialise();
+            message = "No-one can't play a game... or something like that."
+        }
+    }
+
+    playerInput() {
+        for (let i=0; i<this.numberOfPlayers; i++) {
+            this.players.push(new Player(this.questionAnswer(`Player${i+1}Please enter your name:`)));
         }
     }
     
-    scoreBoardUpdater() {
-        let scoreBoard = document.getElementById("scoreboard-inner");
-        console.log(players);
-        for(i=0; i<players.length; i++) {
-            scoreBoard.insertAdjacentHTML("beforeend", `<div>Dave</div><div>5</div><div>6</div>`)
-        }
-    }
+    // scoreBoardUpdater() {
+    //     let scoreBoard = document.getElementById("scoreboard-inner");
+    //     console.log(players);
+    //     for(i=0; i<players.length; i++) {
+    //         scoreBoard.insertAdjacentHTML("beforeend", `<div>Dave</div><div>5</div><div>6</div>`)
+    //     }
+    // }
 
 }
 
