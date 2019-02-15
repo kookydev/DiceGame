@@ -5,14 +5,6 @@ let message = document.getElementById("message-box-inner");
 let inputVal = document.getElementById("input").value;
 let inputBox = document.getElementById("input");
 
-let submitListener = submitButton.addEventListener("click", () => {
-    console.log(inputVal);
-    let response = inputBox.value;
-    inputBox.style.display = "none";
-    submitButton.style.display = "none";
-    message.innerText = "";
-    return (response);
-})
 
 function handleFirstTab(e) {
     if (e.keyCode === 9) { // the "I am a keyboard user" key
@@ -27,7 +19,7 @@ class Game {
     constructor(rollDiceButton, submitButton, message, inputVal, inputBox, submitListener) {
         this.players = [];
         this.playerInput = "";
-        this.numberOfPlayers;
+        this.numberOfPlayers = 0;
         this.gameCount = 0;
         this.roll = 0;
         this.face = ["./img/dice1.png".innerText, "./img/dice2.png", "./img/dice3.png", "./img/dice4.png", "./img/dice5.png", "./img/dice6.png"];
@@ -41,6 +33,7 @@ class Game {
     }
 
     play() {
+
         this.rollDice();
         setTimeout(() => console.log(this.showResult()), this.timeout);
     }
@@ -53,13 +46,15 @@ class Game {
             this.showFace(result);
             counter++;
             this.roll = result + 1;
-        };        
+        };
         let rollTimes = Math.floor(Math.random() * Math.floor(20));
         console.log(`Rolltimes: ${rollTimes}`)
         let interval = 150;
-        this.timeout = rollTimes * interval;        
+        this.timeout = rollTimes * interval;
         var animInterval = setInterval(() => animateDice(), interval);
-        setTimeout(() => {clearInterval(animInterval);}, this.timeout);
+        setTimeout(() => {
+            clearInterval(animInterval);
+        }, this.timeout);
     }
 
     showFace(result) {
@@ -72,33 +67,30 @@ class Game {
 
     showResult() {
         this.score += this.roll
-        if(this.roll == 1) {
-            return(`You rolled a 1 - GAME OVER!`);
+        if (this.roll == 1) {
+            return (`You rolled a 1 - GAME OVER!`);
+        } else {
+            if (this.score >= 20) {
+                return (`CONGRATULATIONS! Your score is ${this.score} or over - YOU WIN!`)
+            } else {
+                return (`Your score is ${this.score}, roll again!`)
+            }
         }
-        else {
-            if (this.score>=20) {
-                return(`CONGRATULATIONS! Your score is ${this.score} or over - YOU WIN!`)
-            }
-            else {
-                return(`Your score is ${this.score}, roll again!`)
-            }
-        } 
     }
 
     gameProgress() {
-        for(let i=0; i<this.players.length; i++) {
+        for (let i = 0; i < this.players.length; i++) {
             if (this.players[i].bust == false && this.players[i].score < 21) {
                 this.rollDice;
-                if(this.roll==1) (
+                if (this.roll == 1)(
                     message.innerText = `Oh man! It's a 1... \nGame Over ${this.players[i].name} - you're BUST!`
                 )
                 else {
                     this.players[i].score += this.roll;
-                    if(this.players[i].score>=20) {
+                    if (this.players[i].score >= 20) {
                         message.innerText = `${this.players[i].name} - YOU WIN!!`
                         break;
-                    }
-                    else {
+                    } else {
                         message.innerText = `Keep going ${this.players[i].name}, your score is ${this.players[i].score}`
                     }
                 }
@@ -110,43 +102,57 @@ class Game {
     questionAnswer(msg) {
         message.innerText = msg;
         playButton.style.display = "none"
-        inputVal = "";
+        inputBox.value = "";
         inputBox.style.display = "inline";
         submitButton.style.display = "inline";
-        return(submitListener);
+        submitButton.addEventListener("click", () => {
+                console.log(inputVal);
+                response = inputBox.value;
+                inputBox.style.display = "none";
+                submitButton.style.display = "none";
+                message.innerText = "";
+                return(response);
+            }
+        )
     }
-    
+
+
     initialise() {
-        fetch(parseInt(this.questionAnswer("How many people are playing?")))
-        .then(this.playerMaker(response));
+        let askPlayerNo = new Promise (function(resolve, reject) {
+            resolve(parseInt(this.questionAnswer("How many people are playing?")));
+        }).then(this.playerMaker(response));
     }
 
     playerMaker(numPlayers) {
-        if(numPlayers>0) {
-            for (let i=0; i<numPlayers; i++) {
-                n = i+1
+        if (numPlayers > 0) {
+            for (let i = 0; i < numPlayers; i++) {
+                n = i + 1;
                 fetch(this.questionAnswer(`Player ${n}, enter your name:`))
-                .then()
+                    .then(() => {
+                        this.players.push(new Player(response))
+                    });
             }
-        }
-        else if (this.numberOfPlayers == NaN) {
-            numberOfPlayers = this.questionAnswer("That wasn't a number, try again.");
-        }
-        else {
+        } else if (this.numberOfPlayers == NaN) {
+            numberOfPlayers = this.questionAnswer("That wasn't a number, try again.")
+            setTimeout(this.initialise(), 3000);
+        } else {
             message.innerText = "No-one can't play a game... or something like that."
+            setTimeout(this.initialise(), 3000);
         }
+
+
     }
 
-    async savePlayers(players) {
-        for (player of players) {
-          await savePlayer(player)
-        }
-      }
+    // async savePlayers(players) {
+    //     for (player of players) {
+    //       await savePlayer(player)
+    //     }
+    //   }
 
-    playerInput(i) {
-        parseInt(this.questionAnswer("How many people are playing?")
-    }
-    
+    // playerInput(i) {
+    //     parseInt(this.questionAnswer("How many people are playing?"))
+    // }
+
     // scoreBoardUpdater() {
     //     let scoreBoard = document.getElementById("scoreboard-inner");
     //     console.log(players);
@@ -179,13 +185,15 @@ class Player {
             this.showFace(result);
             counter++;
             this.roll = result + 1;
-        };        
+        };
         let rollTimes = Math.floor(Math.random() * Math.floor(20));
         console.log(`Rolltimes: ${rollTimes}`)
         let interval = 150;
-        this.timeout = rollTimes * interval;        
+        this.timeout = rollTimes * interval;
         var animInterval = setInterval(() => animateDice(), interval);
-        setTimeout(() => {clearInterval(animInterval);}, this.timeout);
+        setTimeout(() => {
+            clearInterval(animInterval);
+        }, this.timeout);
     }
 
     showFace(result) {
@@ -198,26 +206,26 @@ class Player {
 
     showResult() {
         this.score += this.roll
-        if(this.roll == 1) {
-            return(`You rolled a 1 - GAME OVER!`);
+        if (this.roll == 1) {
+            return (`You rolled a 1 - GAME OVER!`);
+        } else {
+            if (this.score >= 20) {
+                return (`CONGRATULATIONS! Your score is ${this.score} or over - YOU WIN!`)
+            } else {
+                return (`Your score is ${this.score}, roll again!`)
+            }
         }
-        else {
-            if (this.score>=20) {
-                return(`CONGRATULATIONS! Your score is ${this.score} or over - YOU WIN!`)
-            }
-            else {
-                return(`Your score is ${this.score}, roll again!`)
-            }
-        } 
     }
 
-    
+
 
 }
 
 
 
-playButton.addEventListener("click", function () {new Game().initialise()});
+playButton.addEventListener("click", function () {
+    new Game().initialise()
+});
 
 // rollDiceButton.addEventListener("click", turnController);
 
