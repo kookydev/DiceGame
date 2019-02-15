@@ -1,8 +1,9 @@
 let playButton = document.getElementById("play");
 let rollDiceButton = document.getElementById("roll");
 let submitButton = document.getElementById("submit");
-let message = document.getElementById("players are theremessage-box-inner").textContent;
+let message = document.getElementById("message-box-inner");
 let inputVal = document.getElementById("input").value;
+let inputBox = document.getElementById("input");
 
 function handleFirstTab(e) {
     if (e.keyCode === 9) { // the "I am a keyboard user" key
@@ -14,14 +15,18 @@ function handleFirstTab(e) {
 window.addEventListener('keydown', handleFirstTab);
 
 class Game {
-    constructor() {
+    constructor(rollDiceButton, submitButton, message, inputVal, inputBox) {
         this.players = [];
-        this.numberOfPlayers = 0;
         this.playerInput = "";
         this.gameCount = 0;
         this.roll = 0;
-        this.face = ["./img/dice1.png", "./img/dice2.png", "./img/dice3.png", "./img/dice4.png", "./img/dice5.png", "./img/dice6.png"];
+        this.face = ["./img/dice1.png".innerText, "./img/dice2.png", "./img/dice3.png", "./img/dice4.png", "./img/dice5.png", "./img/dice6.png"];
         this.timeout = 0;
+        this.rollDiceButton = rollDiceButton;
+        this.submitButton = submitButton;
+        this.message = message;
+        this.inputVal = inputVal;
+        this.inputBox = inputBox;
     }
 
     play() {
@@ -32,7 +37,7 @@ class Game {
     rollDice() {
         let counter = 1;
         const animateDice = () => {
-            console.log(`Roll number ${counter}`);
+            console.log(`Roll numbenputVal = "";r ${counter}`);
             let result = Math.floor(Math.random() * Math.floor(6));
             this.showFace(result);
             counter++;
@@ -80,32 +85,39 @@ class Game {
     }
 
     questionAnswer(msg) {
-        message = msg;
+        message.innerText = msg;
+        playButton.style.display = "none"
+        inputVal = "";
         inputBox.style.display = "inline";
-        submitButton.display = "inline";
+        submitButton.style.display = "inline";
         submitButton.addEventListener("click", () => {
-            let response = inputVal;
-            inputVal = "";
-            message = "";
+            console.log(inputVal);
+            let response = parseInt(inputBox.value);
             inputBox.style.display = "none";
-            submitButton.display = "none";
+            submitButton.style.display = "none";
+            message.innerText = "";
             return(response);
         });
         
     }
     
     initialise() {
-        this.numberOfPlayers = questionAnswer("How many people are playing?");
-        if(this.numberOfPlayers>0) {
-            playerInput();
+        let numberOfPlayers = this.questionAnswer("How many people are playing?");
+        
+        
+        if(numberOfPlayers>0) {
+            this.playerInput(numberOfPlayers);
+        }
+        else if (numberOfPlayers == NaN) {
+            numberOfPlayers = this.questionAnswer("That wasn't a number, try again.");
         }
         else {
-            message = "No-one can't play a game... or something like that."
+            message.innerText = "No-one can't play a game... or something like that."
         }
     }
 
-    playerInput() {
-        for (let i=0; i<this.numberOfPlayers; i++) {
+    playerInput(n) {
+        for (let i=0; i<n; i++) {
             this.players.push(new Player(this.questionAnswer(`Player${i+1}Please enter your name:`)));
         }
     }
