@@ -5,6 +5,15 @@ let message = document.getElementById("message-box-inner");
 let inputVal = document.getElementById("input").value;
 let inputBox = document.getElementById("input");
 
+let submitListener = submitButton.addEventListener("click", () => {
+    console.log(inputVal);
+    let response = inputBox.value;
+    inputBox.style.display = "none";
+    submitButton.style.display = "none";
+    message.innerText = "";
+    return (response);
+})
+
 function handleFirstTab(e) {
     if (e.keyCode === 9) { // the "I am a keyboard user" key
         document.body.classList.add('user-is-tabbing');
@@ -15,9 +24,10 @@ function handleFirstTab(e) {
 window.addEventListener('keydown', handleFirstTab);
 
 class Game {
-    constructor(rollDiceButton, submitButton, message, inputVal, inputBox) {
+    constructor(rollDiceButton, submitButton, message, inputVal, inputBox, submitListener) {
         this.players = [];
         this.playerInput = "";
+        this.numberOfPlayers;
         this.gameCount = 0;
         this.roll = 0;
         this.face = ["./img/dice1.png".innerText, "./img/dice2.png", "./img/dice3.png", "./img/dice4.png", "./img/dice5.png", "./img/dice6.png"];
@@ -27,6 +37,7 @@ class Game {
         this.message = message;
         this.inputVal = inputVal;
         this.inputBox = inputBox;
+        // this.return = "";
     }
 
     play() {
@@ -77,11 +88,23 @@ class Game {
     gameProgress() {
         for(let i=0; i<this.players.length; i++) {
             if (this.players[i].bust == false && this.players[i].score < 21) {
-
+                this.rollDice;
+                if(this.roll==1) (
+                    message.innerText = `Oh man! It's a 1... \nGame Over ${this.players[i].name} - you're BUST!`
+                )
+                else {
+                    this.players[i].score += this.roll;
+                    if(this.players[i].score>=20) {
+                        message.innerText = `${this.players[i].name} - YOU WIN!!`
+                        break;
+                    }
+                    else {
+                        message.innerText = `Keep going ${this.players[i].name}, your score is ${this.players[i].score}`
+                    }
+                }
             }
+
         }
-        
-        
     }
 
     questionAnswer(msg) {
@@ -90,25 +113,23 @@ class Game {
         inputVal = "";
         inputBox.style.display = "inline";
         submitButton.style.display = "inline";
-        submitButton.addEventListener("click", () => {
-            console.log(inputVal);
-            let response = parseInt(inputBox.value);
-            inputBox.style.display = "none";
-            submitButton.style.display = "none";
-            message.innerText = "";
-            return(response);
-        });
-        
+        return(submitListener);
     }
     
     initialise() {
-        let numberOfPlayers = this.questionAnswer("How many people are playing?");
-        
-        
-        if(numberOfPlayers>0) {
-            this.playerInput(numberOfPlayers);
+        fetch(parseInt(this.questionAnswer("How many people are playing?")))
+        .then(this.playerMaker(response));
+    }
+
+    playerMaker(numPlayers) {
+        if(numPlayers>0) {
+            for (let i=0; i<numPlayers; i++) {
+                n = i+1
+                fetch(this.questionAnswer(`Player ${n}, enter your name:`))
+                .then()
+            }
         }
-        else if (numberOfPlayers == NaN) {
+        else if (this.numberOfPlayers == NaN) {
             numberOfPlayers = this.questionAnswer("That wasn't a number, try again.");
         }
         else {
@@ -116,10 +137,14 @@ class Game {
         }
     }
 
-    playerInput(n) {
-        for (let i=0; i<n; i++) {
-            this.players.push(new Player(this.questionAnswer(`Player${i+1}Please enter your name:`)));
+    async savePlayers(players) {
+        for (player of players) {
+          await savePlayer(player)
         }
+      }
+
+    playerInput(i) {
+        parseInt(this.questionAnswer("How many people are playing?")
     }
     
     // scoreBoardUpdater() {
