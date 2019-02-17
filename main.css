@@ -6,6 +6,8 @@ body {
     height: 100vh;
     overflow: hidden;
     font-family: 'Audiowide', cursive;
+    background: #046437;
+    color: whitesmoke;
 }
 
 #wrapper {
@@ -74,7 +76,7 @@ body {
 }
 
 #play {
-    display: inline;
+    display: inline;  
 }
 
 #roll {
@@ -82,6 +84,10 @@ body {
 }
 
 #submit {
+    display: none;
+}
+
+#next {
     display: none;
 }
 
@@ -97,7 +103,8 @@ body {
 .scoreboard-headings {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-
+    font-size: 2em;
+    text-decoration: underline;
 }
 
 .score {
@@ -114,6 +121,7 @@ body {
 #scoreboard-inner {
     display: grid;
     grid-template-columns: repeat(3, 1fr);  
+    font-size: 1.4em;
 }
 
 #message-box {
@@ -129,6 +137,7 @@ body {
     align-items: center;
     justify-content: center;
     font-size: 2em;
+    color: black;
 }
 
 
@@ -141,7 +150,7 @@ body:not(.user-is-tabbing) textarea:focus {
 
 #instructions {
     font-size: 1.2rem;
-    display: none;
+    display: inline;
     min-width: 70%;
 }
 
