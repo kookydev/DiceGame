@@ -102,8 +102,9 @@ body {
 
 .scoreboard-headings {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    font-size: 2em;
+    grid-template-columns: repeat(5, 1fr);
+    font-size: 1.8em;
+    text-align: left;
     text-decoration: underline;
 }
 
@@ -120,7 +121,7 @@ body {
 
 #scoreboard-inner {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);  
+    grid-template-columns: repeat(5, 1fr);  
     font-size: 1.4em;
 }
 

@@ -53,18 +53,21 @@ function resetter() {
   });
 }
 
+let iterator = () => {
+    i++
+    if (i<playerInput.length) {
+        playGame();
+    }
+    else {
+        i=0;
+        playGame();
+    }
+}
 
-
-async function playGame() {
+function playGame() {
     console.log(i);
     console.log(players.length);
-  if (i < players.length) {
-    await playerTurn();
-  } else {
-    i = 0;
-    playGame();
-    ;
-  }
+    playerTurn();
 }
 
 function playerTurn() {
@@ -75,10 +78,9 @@ function playerTurn() {
       rollDiceButton.style.display = "none";
       message.innerText = "";
       rollDice();
-    });
+    }, false);
   } else {
-    i++
-    playGame();
+    iterator();
   }
 }
 
@@ -93,6 +95,7 @@ function rollDice() {
   scoreNumber.innerText = players[i].score;
   document.getElementById(`player${i}roll`).innerText = players[i].lastRoll;
   document.getElementById(`player${i}score`).innerText = players[i].score;
+  console.log(`score is ${players[i].score}`);
   rollOutcome();
 }
 
@@ -111,8 +114,7 @@ function rollOutcome() {
     rollDiceButton.style.display = "none";
     nextButton.addEventListener("click", () => {
       nextButton.style.display = "none";
-      i++;
-      playGame();
+      iterator();
     });
   } else {
     if (players[i].score >= 20) {
@@ -130,8 +132,7 @@ function rollOutcome() {
       nextButton.style.display = "inline";
       nextButton.addEventListener("click", () => {
         nextButton.style.display = "none";
-        i++;
-        playGame();
+        iterator();
       });
     }
   }
@@ -195,7 +196,7 @@ async function playerMaker(numPlayers) {
     message.innerText = "No-one can't play a game... or something like that.";
     setTimeout(initialise(), 3000);
   }
-  playGame();
+  iterator();
 }
 
 class Player {
