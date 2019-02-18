@@ -7,7 +7,7 @@ let message = document.getElementById("message-box-inner");
 let inputBox = document.getElementById("input");
 let scoreBoardString = "";
 let scoreBoard = document.getElementById("scoreboard-inner");
-
+let scoreNumber = document.getElementById("score-number");
 
 function handleFirstTab(e) {
     if (e.keyCode === 9) { // the "I am a keyboard user" key
@@ -39,64 +39,64 @@ class Game {
 
     }
 
-    async rollDice() {
-        let counter = 1;
-        const animateDice = (roll) => {
-            console.log(`Roll number ${counter}`);
+    rollDice(i) {
+        return new Promise((resolve, reject) => {
             let result = Math.floor(Math.random()*6);
-            this.showFace(result);
-            counter++;
             this.roll = result + 1;
-        };
-        let rollTimes = Math.floor(Math.random() * Math.floor(20));
-        console.log(`Rolltimes: ${rollTimes}`)
-        let interval = 150;
-        this.timeout = rollTimes * interval;
-        var animInterval = setInterval(() => animateDice(), interval);
-        setTimeout(() => {
-            clearInterval(animInterval);
-        }, this.timeout);
+            this.players[i].score += this.roll;
+            this.players[i].lastRoll = this.roll;
+            this.showResults(result, i);
+            resolve();
+        }); 
     }
 
-    showFace(result) {
+    showResults(result, i) {
         let num = result + 1;
         console.log(num);
         let img = document.getElementById("dice-face");
         img.src = `${this.face[result]}`;
         img.alt = `${num}`;
+        scoreNumber.innerText = this.players[i].score;
+        document.getElementById(`player${i}roll`).innerText = this.players[i].lastRoll;
+        document.getElementById(`player${i}score`).innerText = this.players[i].score;
     }
 
-    showResult() {
-        this.score += this.roll
-        if (this.roll == 1) {
-            return (`You rolled a 1 - GAME OVER!`);
-        } else {
-            if (this.score >= 20) {
-                return (`CONGRATULATIONS! Your score is ${this.score} or over - YOU WIN!`)
-            } else {
-                return (`Your score is ${this.score}, roll again!`)
+    rollOutcome(i){
+        return new Promise((resolve, reject) => {
+        if (this.roll == 1){
+            message.innerText = `Oh man! It's a 1... \nGame Over ${this.players[i].name} - you're BUST!`
+            this.players[i].bust = true;
+            resolve()
+        }
+        else {
+            this.players[i].score += this.roll;
+            if (this.players[i].score >= 20) {
+                message.innerText = `${this.players[i].name} - YOU WIN!!`
+                this.players[i].wins++
+                resetter();
+            } 
+            else {
+                message.innerText = `Keep going ${this.players[i].name}, your score is ${this.players[i].score}`
+                resolve();
             }
         }
+        });
+        
     }
 
-    async gameProgress() {
+    resetter() {
+        for (let i = 0; i<this.players.length; i++) {
+            this.players.lastRoll = 0;
+            this.players.score = 0;
+            this.players.bust = false;
+        }
+        playGame
+    }
+
+    async playGame() {
         for (let i = 0; i < this.players.length; i++) {
             if (this.players[i].bust == false && this.players[i].score < 21) {
-                await this.prompter(`You're up, ${this.players[i].name}, Roll that die!`, rollDiceButton, this.rollDice());
-                if (this.roll == 1){
-                    message.innerText = `Oh man! It's a 1... \nGame Over ${this.players[i].name} - you're BUST!`
-                    this.players[i].bust = true;
-            }
-                else {
-                    this.players[i].score += this.roll;
-                    if (this.players[i].score >= 20) {
-                        message.innerText = `${this.players[i].name} - YOU WIN!!`
-                        this.players[i].wins++
-                    } else {
-                        message.innerText = `Keep going ${this.players[i].name}, your score is ${this.players[i].score}`
-
-                    }
-                }
+                await this.prompter(`You're up, ${this.players[i].name}, Roll that die!`, rollDiceButton).then(this.rollDice(i)).then(this.rollOutcome(i));;
             }
         }    
     }
@@ -122,18 +122,20 @@ class Game {
         })});
     }
 
-    async prompter(msg, thisButton, runFunc) { // msg = message string button - button to display, read etc... runFunc = function to run
+    prompter(msg, thisButton) { // msg = message string button - button to display, read etc... runFunc = function to run
         message.innerText = msg;
         playButton.style.display = "none"
         submitButton.style.display = "none";
         rollDiceButton.style.display = "none";
         nextButton.style.display = "none";
         thisButton.style.display = "inline";
-        await thisButton.addEventListener("click", () => {
-            inputBox.style.display = "none";
-            thisButton.style.display = "none";
-            message.innerText = "";
-            runFunc;
+        return new Promise((resolve, reject) => {
+            thisButton.addEventListener("click", () => {
+                inputBox.style.display = "none";
+                thisButton.style.display = "none";
+                message.innerText = "";
+                resolve();
+        }); 
         });
     };
     
@@ -162,7 +164,7 @@ class Game {
             setTimeout(this.initialise(), 3000);
         }
 
-        this.gameProgress();
+        this.playGame();
 
     }
 
