@@ -29,7 +29,9 @@ const playGame = () => {
     rollDiceButton.style.display = "none";
     message.innerText = "";
     rollDice();
-})}
+})
+  rollOutcome();
+}
 
 function rollDice() {
   let img = document.getElementById("dice-face");
@@ -39,7 +41,7 @@ function rollDice() {
   img.alt = `${roll}`;
   score += roll;
   scoreNumber.innerText = score;
-  rollOutcome();
+  return();
 }
 
 function rollOutcome() {
