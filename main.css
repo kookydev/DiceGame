@@ -83,6 +83,10 @@ body {
     display: none;
 }
 
+#rollagain {
+    display: none;
+}
+
 #submit {
     display: none;
 }
