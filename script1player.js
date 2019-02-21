@@ -62,7 +62,7 @@ function rollOutcome() {
 
   } else {
     if (score >= 20) {
-      `YOU WIN!!\nClick below to play again`;
+      message.innerText =`YOU WIN!!\nClick below to play again`;
       playButton.style.display = "inline";
 
     } else {
