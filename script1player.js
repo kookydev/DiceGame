@@ -19,6 +19,12 @@ let face = [
   "./img/dice6.png"
 ];
 
+playButton.addEventListener("click", function () {
+  playGame()
+});
+rollDiceButton.addEventListener("click", function () {
+  rollDice()
+});
 
 
 
@@ -29,12 +35,9 @@ const playGame = () => {
   playButton.style.display = "none";
   message.innerText = `Click to roll that die!`;
   rollDiceButton.style.display = "inline";
-  debugger;
-
 }
-playButton.addEventListener("click", function () {
-  playGame()
-});
+
+
 const rollDice = () => {
   rollDiceButton.style.display = "none";
   debugger;
@@ -48,14 +51,10 @@ const rollDice = () => {
   scoreNumber.innerText = score;
   rollOutcome();
 }
-rollDiceButton.addEventListener("click", function () {
-  rollDice()
-});
-rollDiceAgain.addEventListener("click", function () {
-  rollDice()
-});
+
 
 function rollOutcome() {
+  debugger;
   console.log(`score is ${score}`);
   if (roll == 1) {
     message.innerText = `Oh man! It's a 1... \nGame Over - you're BUST!\n Click to play again.`;
@@ -68,7 +67,7 @@ function rollOutcome() {
 
     } else {
       message.innerText = `Keep going, your score is ${score} - click to roll again`;
-      rollDiceAgain.style.display = "inline";
+      rollDiceButton.style.display = "inline";
     }
   }
 }
