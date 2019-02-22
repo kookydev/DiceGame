@@ -1,0 +1,29 @@
+{
+  "name": "dicegame",
+  "version": "1.0.0",
+  "description": "It's a thing...",
+  "main": "script.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kookydev/DiceGame-TDD.git"
+  },
+  "keywords": [
+    "TDD",
+    "refactoring",
+    "of",
+    "dice",
+    "game"
+  ],
+  "author": "Kyle Trotter",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kookydev/DiceGame/issues"
+  },
+  "homepage": "https://github.com/kookydev/DiceGame#readme"
+}
