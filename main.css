@@ -38,10 +38,13 @@ body {
     margin: 10px;
 }
 
-#input:focus { 
+#input:focus {
     box-shadow: 1px 1px 3px inset rgba(0, 0, 0, 0.2);
 }
 
+.scoreboard-bust {
+    color: red;
+}
 
 .button {
     width: 250px;
@@ -76,24 +79,27 @@ body {
 }
 
 #play {
-    display: inline;  
+    display: none;
 }
 
 #roll {
     display: none;
 }
 
-#rollagain {
+#next {
+    background: rgb(255, 230, 0);
     display: none;
+    color: grey;
 }
 
 #submit {
     display: none;
 }
 
-#next {
-    display: none;
+#add-player {
+    display: inline;
 }
+
 
 .scoreboard {
     width: 80vw;
@@ -125,7 +131,7 @@ body {
 
 #scoreboard-inner {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);  
+    grid-template-columns: repeat(5, 1fr);
     font-size: 1.4em;
 }
 
@@ -150,7 +156,7 @@ body:not(.user-is-tabbing) button:focus,
 body:not(.user-is-tabbing) input:focus,
 body:not(.user-is-tabbing) select:focus,
 body:not(.user-is-tabbing) textarea:focus {
-  outline: none;
+    outline: none;
 }
 
 #instructions {
@@ -162,16 +168,18 @@ body:not(.user-is-tabbing) textarea:focus {
 #instructions h3 {
     margin: 0;
 }
+
 #instructions li {
     text-align: left;
 }
+
 #message-box-inner {
     display: inline;
 }
 
 .play-area {
     min-width: 80%;
-    display: flex;
+    display: none;
     flex-direction: row;
     align-items: center;
     justify-content: space-around;

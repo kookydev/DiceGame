@@ -26,8 +26,6 @@ rollDiceButton.addEventListener("click", function () {
   rollDice()
 });
 
-
-
 const playGame = () => {
   score = 0;
   scoreNumber.innerText = score;
@@ -40,7 +38,6 @@ const playGame = () => {
 
 const rollDice = () => {
   rollDiceButton.style.display = "none";
-  debugger;
   message.innerText = "";
   let img = document.getElementById("dice-face");
   let result = Math.floor(Math.random() * 5);
@@ -62,11 +59,11 @@ function rollOutcome() {
 
   } else {
     if (score >= 20) {
-      message.innerText =`YOU WIN!!\nClick below to play again`;
+      message.innerText = `YOU WIN!!\nClick below to play again`;
       playButton.style.display = "inline";
 
     } else {
-      message.innerText = `Keep going, your score is ${score} - click to roll again`;
+      message.innerText = `You rolled ${roll} - click to roll again`;
       rollDiceButton.style.display = "inline";
     }
   }
