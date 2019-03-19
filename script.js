@@ -110,7 +110,7 @@ const rollDice = () => {
   rollDiceButton.style.display = "none";
   message.innerText = "";
   let img = document.getElementById("dice-face");
-  let result = Math.floor(Math.random() * 5);
+  let result = Math.floor(Math.random() * 6);
   gameData.roll = result + 1;
   img.src = `${gameData.face[result]}`;
   img.alt = `${gameData.roll}`;
